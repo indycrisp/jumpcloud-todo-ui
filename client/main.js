@@ -1,4 +1,3 @@
-import '../styles/reset.css';
 import Vue from 'vue';
 import App from './app.vue';
 

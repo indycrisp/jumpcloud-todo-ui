@@ -5,7 +5,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 const config = {
   entry: {
-    app: './client/scripts/main.js',
+    app: './client/main.js',
   },
   output: {
     filename: 'app.js',
