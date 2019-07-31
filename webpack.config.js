@@ -1,6 +1,7 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 const config = {
   entry: {
@@ -19,24 +20,15 @@ const config = {
         loader: 'babel-loader',
       },
       {
+        test: /\.vue$/,
+        loader: 'vue-loader'
+      },
+      {
         test: /\.css$/,
-        loader: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                sourceMap: true,
-                modules: true,
-                importLoaders: 1,
-                localIdentName: '[name]__[local]'
-              }
-            },
-            {
-              loader: 'postcss-loader',
-            },
-          ],
-        })),
+		use: [
+          'vue-style-loader',
+          'css-loader'
+        ]
       },
       {
         test: /\.html/,
@@ -58,7 +50,8 @@ const config = {
       filename: 'app.css',
       ignoreOrder: true,
     }),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new VueLoaderPlugin()
   ],
   resolve: {
     extensions: ['.css', '.js'],
