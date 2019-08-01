@@ -1,13 +1,18 @@
 <template>
   <v-container>
     <v-toolbar class='headline' dark>
-      To-do List <v-spacer></v-spacer>{{todos.length}} tasks
+      To-do List
     </v-toolbar>
-    <v-container>
+    <v-container v-if="loading">
+      <v-progress-linear indeterminate color="cyan"></v-progress-linear>
+    </v-container>
+    <v-container v-else>
       <v-subheader class='title'>
-        Completed: {{todos.filter(todo => { return todo.done === true }).length}}
+        Total: {{todos.length}}
         <v-divider class='mx-4' inset vertical></v-divider>
-        In Progress: {{todos.filter(todo => { return todo.done === false }).length}}
+        <span class="green--text">Completed: {{todos.filter(todo => { return todo.done === true }).length}}</span>
+        <v-divider class='mx-4' inset vertical></v-divider>
+        <span class="yellow--text text--darken-3">In Progress: {{todos.filter(todo => { return todo.done === false }).length}}</span>
         <v-spacer></v-spacer>
         <v-progress-circular :value='progress' :size=46 color='green' class='mr-2 caption'>{{progress}}%</v-progress-circular>
       </v-subheader>
@@ -24,7 +29,7 @@
   import CreateTodo from './CreateTodo.vue';
 
   export default {
-    props: ['todos'],
+    props: ['todos', 'loading'],
     components: {
       Todo,
       CreateTodo

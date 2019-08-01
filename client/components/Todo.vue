@@ -1,12 +1,17 @@
 <template>
-  <v-list-item class="todo-list-item" v-bind:id="`todo-item-${todo.id}`">
-    <v-list-item-content v-if="error">{{error}}</v-list-item-content>
-    <v-list-item-action v-else>
-      <v-checkbox tabindex="-1" @change.native="completeTodo(todo)" v-model='todo.done'></v-checkbox>
+  <v-list-item
+    :class="[
+      todo-list-item,
+      error ? 'todo-list-item-error' : '',
+    ]"
+    v-bind:id="`todo-item-${todo.id}`"
+  >
+    <v-list-item-content v-if="error" class="red--text texty--dark-4">{{error}}</v-list-item-content>
+    <v-list-item-action v-if="!error">
+      <v-checkbox tabindex="-1" @change="completeTodo(todo)" v-model='todo.done'></v-checkbox>
     </v-list-item-action>
-    <v-list-item-content>
+    <v-list-item-content v-if="!error">
       <v-text-field
-        :readonly="isEditing == false"
         v-on:blur="updateDescription(todo, $event.target)"
         v-on:keyup.enter="updateDescription(todo, $event.target)"
         v-on:click="editDescription()"
@@ -57,17 +62,17 @@
     methods: {
       completeTodo(todo) {
         this.error = null;
-        todo.done = !todo.done;
         updateTodo(todo).then((response) => {
           if (response.err) {
             this.error = response.err;
+            this.todo.done = !this.todo.done;
           }
         });
       },
       updateDescription(todo, target) {
         $(target).blur();
         this.error = null;
-        this.description = description;
+        this.description = $(target).val();
         updateTodo(todo).then((response) => {
           if (response.err) {
             this.error = response.err;
@@ -100,5 +105,10 @@
 <style>
   .todo-list-item {
     height: 60px;
+  }
+
+  .todo-list-item-error {
+    height: 86px;
+    border: 1px solid red;
   }
 </style>

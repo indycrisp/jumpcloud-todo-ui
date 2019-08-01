@@ -5,16 +5,9 @@
         <v-layout row justify-center class="ma-5">
           <v-flex xs12 sm8>
             <v-card>
-              <div v-if="loading" class="loading">
-                Loading...
-              </div>
-
-              <div v-else-if="error" class="error">
-                {{ error }}
-              </div>
-
+              <v-subheader v-if="error" class="red--text text--darken-4 headline">Error: {{error}}</v-subheader>
               <div v-else-if="todos" class="content">
-                <todo-list v-bind:todos="todos"></todo-list>
+                <todo-list :loading="loading" v-bind:todos="todos"></todo-list>
               </div>
             </v-card>
           </v-flex>
@@ -45,7 +38,7 @@
     },
     data () {
       return {
-        loading  : false,
+        loading  : true,
         todos    : [],
         error    : null
       };
