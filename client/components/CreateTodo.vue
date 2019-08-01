@@ -1,7 +1,14 @@
 <template>
-  <div v-if="error">{{error}}</div>
-  <div v-else-if="loading">Loading...</div>
-  <input v-else class='create-todo' @keyup.enter="createTodo($event.target.value)" placeholder='Enter task here'></input>
+  <v-container>
+    <div v-if="error">{{error}}</div>
+    <div v-else-if="loading">Loading...</div>
+    <v-text-field v-else
+      class='create-todo'
+      @keyup.enter="createTodo($event.target.value)"
+      placeholder='Enter new to-do'
+      prepend-inner-icon="add"
+    ></v-text-field>
+  </v-container>
 </template>
 
 <script>

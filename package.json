@@ -23,10 +23,13 @@
     "underscore": "^1.8.3",
     "vue": "^2.6.10",
     "vue-loader": "^15.7.1",
+    "vue-material-design-icons": "^3.3.1",
     "vue-style-loader": "^4.1.2",
-    "vue-template-compiler": "^2.6.10"
+    "vue-template-compiler": "^2.6.10",
+    "vuetify": "^2.0.3"
   },
   "devDependencies": {
+    "@mdi/font": "^3.8.95",
     "autoprefixer": "^7.1.6",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",

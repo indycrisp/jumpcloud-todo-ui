@@ -1,22 +1,27 @@
 <template>
-  <div id='app-container'>
-    <div v-if="loading" class="loading">
-      Loading...
-    </div>
+  <v-app>
+    <v-content>
+      <v-container>
+        <v-layout row justify-center class="ma-5">
+          <v-flex xs12 sm8>
+            <v-card>
+              <div v-if="loading" class="loading">
+                Loading...
+              </div>
 
-    <div v-else-if="error" class="error">
-      {{ error }}
-    </div>
+              <div v-else-if="error" class="error">
+                {{ error }}
+              </div>
 
-    <div v-else-if="todos" class="content">
-      <div>Number of tasks: {{todos.length}}</div>
-      <div>
-        <span>Completed: {{todos.filter(todo => { return todo.done === true }).length}}</span>
-        <span>Pending: {{todos.filter(todo => { return todo.done === false }).length}}</span>
-      </div>
-      <todo-list v-bind:todos="todos"></todo-list>
-    </div>
-  </div>
+              <div v-else-if="todos" class="content">
+                <todo-list v-bind:todos="todos"></todo-list>
+              </div>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
@@ -40,9 +45,9 @@
     },
     data () {
       return {
-        loading : false,
-        todos   : [],
-        error   : null
+        loading  : false,
+        todos    : [],
+        error    : null
       };
     },
     created () {

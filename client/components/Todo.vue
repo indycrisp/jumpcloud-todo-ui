@@ -1,17 +1,26 @@
 <template>
-  <div v-bind:id="`todo-item-${todo.id}`">
-    <div v-if="error">{{error}}</div>
-    <div v-else>
-      <input type='checkbox' v-on:click="completeTodo(todo)" v-model='todo.done'></input>
-      <input v-if="isEditing" @keyup.enter="updateDescription(todo, $event.target.value)" v-on:blur="cancelEdit()" v-model='todo.description'></input>
-      <span v-else v-on:click="editDescription()">{{todo.description}}&nbsp;&nbsp;</span>
-      <span class="delete" v-on:click="deleteTodo(todo)">delete</span>
-    </div>
-  </div>
+  <v-list-item class="todo-list-item" v-bind:id="`todo-item-${todo.id}`">
+    <v-list-item-content v-if="error">{{error}}</v-list-item-content>
+    <v-list-item-action v-else>
+      <v-checkbox tabindex="-1" @change.native="completeTodo(todo)" v-model='todo.done'></v-checkbox>
+    </v-list-item-action>
+    <v-list-item-content>
+      <v-text-field
+        :readonly="isEditing == false"
+        v-on:blur="updateDescription(todo, $event.target)"
+        v-on:keyup.enter="updateDescription(todo, $event.target)"
+        v-on:click="editDescription()"
+        v-model='todo.description'
+        append-icon="delete"
+        @click:append="deleteTodo(todo)"
+      ></v-text-field>
+    </v-list-item-content>
+  </v-list-item>
 </template>
 
 <script>
   //TODO test fail case, move to data file somewhere
+  // TODO make sure inputs don't allow HTML
   const updateTodo = (todo) => {
     return new Promise((resolve) => {
       $.ajax({
@@ -55,7 +64,8 @@
           }
         });
       },
-      updateDescription(todo, description) {
+      updateDescription(todo, target) {
+        $(target).blur();
         this.error = null;
         this.description = description;
         updateTodo(todo).then((response) => {
@@ -88,8 +98,7 @@
 </script>
 
 <style>
-  .delete {
-    cursor: pointer;
-    color: blue;
+  .todo-list-item {
+    height: 60px;
   }
 </style>
