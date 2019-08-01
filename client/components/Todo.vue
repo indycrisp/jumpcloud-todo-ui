@@ -1,12 +1,12 @@
 <template>
   <v-list-item
     :class="[
-      todo-list-item,
+      'todo-list-item',
       error ? 'todo-list-item-error' : '',
     ]"
     v-bind:id="`todo-item-${todo.id}`"
   >
-    <v-list-item-content v-if="error" class="red--text texty--dark-4">{{error}}</v-list-item-content>
+    <v-list-item-content v-if="error" class="red--text texty--dark-4">Error: {{error}}</v-list-item-content>
     <v-list-item-action v-if="!error">
       <v-checkbox tabindex="-1" @change="completeTodo(todo)" v-model='todo.done'></v-checkbox>
     </v-list-item-action>
@@ -24,32 +24,8 @@
 </template>
 
 <script>
-  //TODO test fail case, move to data file somewhere
-  // TODO make sure inputs don't allow HTML
-  const updateTodo = (todo) => {
-    return new Promise((resolve) => {
-      $.ajax({
-        url: "http://localhost:8004/api/todos/" + todo.id,
-        contentType: 'application/json',
-        type: 'PUT',
-        data: JSON.stringify(todo)
-      })
-      .done(data => resolve({ todo: data }))
-      .fail(err => resolve({ err: err.responseText }));
-    });
-  };
-
-  //TODO test fail case
-  const deleteTodo = (todo) => {
-    return new Promise((resolve) => {
-      $.ajax({
-        url: "http://localhost:8004/api/todos/" + todo.id,
-        type: 'DELETE'
-      })
-      .done(data => resolve({ todo: data }))
-      .fail(err => resolve({ err: err.responseText }));
-    });
-  };
+  var TodoDataModule = require('../data.js');
+  var TodoData = new TodoDataModule();
 
   export default {
     props: ['todo'],
@@ -62,7 +38,7 @@
     methods: {
       completeTodo(todo) {
         this.error = null;
-        updateTodo(todo).then((response) => {
+        TodoData.updateTodo(todo).then((response) => {
           if (response.err) {
             this.error = response.err;
             this.todo.done = !this.todo.done;
@@ -73,7 +49,7 @@
         $(target).blur();
         this.error = null;
         this.description = $(target).val();
-        updateTodo(todo).then((response) => {
+        TodoData.updateTodo(todo).then((response) => {
           if (response.err) {
             this.error = response.err;
           }
@@ -83,7 +59,7 @@
       },
       deleteTodo(todo) {
         this.error = null;
-        deleteTodo(todo).then((response) => {
+        TodoData.deleteTodo(todo).then((response) => {
           if (response.err) {
             this.error = response.err;
           }
@@ -108,7 +84,7 @@
   }
 
   .todo-list-item-error {
-    height: 86px;
+    height: 60px;
     border: 1px solid red;
   }
 </style>

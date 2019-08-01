@@ -1,46 +1,34 @@
 <template>
   <v-container>
-    <div v-if="error">{{error}}</div>
-    <div v-else-if="loading">Loading...</div>
-    <v-text-field v-else
+    <v-text-field
       class='create-todo'
-      @keyup.enter="createTodo($event.target.value)"
+      @keyup.enter="createTodo($event.target)"
       placeholder='Enter new to-do'
       prepend-inner-icon="add"
+      :error-messages="error"
     ></v-text-field>
   </v-container>
 </template>
 
 <script>
-  // TODO test fail case, move to some data file
-  // implement loading state
-  const createTodo = (todo) => {
-    return new Promise((resolve) => {
-      $.ajax({
-        url: "http://localhost:8004/api/todos/",
-        contentType: "application/json",
-        type: "POST",
-        data: JSON.stringify(todo)
-      })
-      .done(data => resolve({ todo: data }))
-      .fail(err => resolve({ err: err.responseText}));
-    });
-  };
+  var TodoDataModule = require('../data.js');
+  var TodoData = new TodoDataModule();
 
   export default {
     data () {
       return {
-        loading: false,
         error: null
       };
     },
     methods: {
-      createTodo(description) {
+      createTodo(target) {
+        var description = $(target).val();
+        if (!description || description === "") return;
+
         this.error = null;
-        this.loading = true;
+        $(target).blur();
         var todo = { description : description };
-        createTodo(todo).then((response) => {
-          this.loading = false;
+        TodoData.createTodo(todo).then((response) => {
           if (response.err) {
             this.error = response.err;
           }

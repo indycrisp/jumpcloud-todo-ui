@@ -19,17 +19,8 @@
 
 <script>
   import TodoList from './components/TodoList.vue';
-
-  const getTodos = () => {
-    return new Promise((resolve) => {
-      $.ajax({
-        url: 'http://localhost:8004/api/todos',
-        type: 'GET'
-      })
-      .done(data => resolve({ todos: data }))
-      .fail(err => resolve({ err : err.responseText }));
-    });
-  };
+  var TodoDataModule = require('./data.js');
+  var TodoData = new TodoDataModule();
 
   export default {
     name: 'app',
@@ -50,7 +41,7 @@
       fetchData () {
         this.error = this.post = null;
         this.loading = true;
-        getTodos().then((response) => {
+        TodoData.getTodos().then((response) => {
           this.loading = false;
           if (response.err) {
             this.error = response.err;
