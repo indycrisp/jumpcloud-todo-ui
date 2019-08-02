@@ -5,7 +5,6 @@
       v-model="description"
       @keyup.enter="createTodo($event.target)"
       placeholder='Enter new to-do'
-      prepend-inner-icon="add"
       :error-messages="error"
     ></v-text-field>
   </v-container>
