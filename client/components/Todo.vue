@@ -102,7 +102,6 @@
 <style>
   .todo-list-item {
     height: 60px;
-    //width: 100%;
   }
 
   .list-item-transition-leave {
