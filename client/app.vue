@@ -4,7 +4,7 @@
       <v-container>
         <v-layout row justify-center class="ma-5">
           <v-flex md6>
-            <v-card>
+            <v-card elevation=6>
               <v-subheader v-if="error" class="red--text text--darken-4 headline">Error: {{error}}</v-subheader>
               <div v-else-if="todos" class="content">
                 <todo-list :loading="loading" v-bind:todos="todos"></todo-list>

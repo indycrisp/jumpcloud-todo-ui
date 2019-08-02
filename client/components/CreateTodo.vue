@@ -6,6 +6,7 @@
       @keyup.enter="createTodo($event.target)"
       placeholder='Enter new to-do'
       :error-messages="error"
+      prepend-inner-icon="chevron_right"
     ></v-text-field>
   </v-container>
 </template>
@@ -28,7 +29,6 @@
         if (!description || description === "") return;
 
         this.error = null;
-        $(target).blur();
         var todo = { description : description };
         TodoData.createTodo(todo).then((response) => {
           if (response.err) {
