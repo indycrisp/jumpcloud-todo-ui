@@ -1,7 +1,7 @@
 <template>
   <v-container>
-    <v-toolbar class='headline' dark>
-      To-do List
+    <v-toolbar class='display-1' elevation=0>
+      <v-flex class='todo-toolbar'>To-do List</v-flex>
     </v-toolbar>
     <v-container v-if="loading">
       <v-progress-linear indeterminate color="cyan"></v-progress-linear>
@@ -17,8 +17,10 @@
         <v-progress-circular :value='progress' :size=46 color='green' class='mr-2 caption'>{{progress}}%</v-progress-circular>
       </v-subheader>
       <v-list flat dense>
+        <create-todo v-on:create-todo="createTodo" v-bind:key="'add-new'"></create-todo>
+        <v-slide-y-transition name="blah" tag="v-list" group class="py-0">
         <todo v-on:delete-todo="deleteTodo" v-for="todo in todos" v-bind:key="todo.id" :todo.sync="todo"></todo>
-        <create-todo v-on:create-todo="createTodo"></create-todo>
+        </v-slide-y-transition>
       </v-list>
     </v-container>
   </v-container>
@@ -53,3 +55,9 @@
     }
   };
 </script>
+
+<style>
+  .todo-toolbar {
+    text-align: center;
+  }
+</style>

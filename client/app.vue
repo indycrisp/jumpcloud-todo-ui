@@ -3,7 +3,7 @@
     <v-content>
       <v-container>
         <v-layout row justify-center class="ma-5">
-          <v-flex xs12 sm8>
+          <v-flex md6>
             <v-card>
               <v-subheader v-if="error" class="red--text text--darken-4 headline">Error: {{error}}</v-subheader>
               <div v-else-if="todos" class="content">

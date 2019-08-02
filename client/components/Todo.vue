@@ -16,9 +16,21 @@
         v-on:keyup.enter="updateDescription(todo, $event.target)"
         v-on:click="editDescription()"
         v-model='todo.description'
-        append-icon="delete"
         @click:append="deleteTodo(todo)"
-      ></v-text-field>
+      >
+        <template slot="append">
+          <v-icon
+            color="green"
+            :class="[
+              'request-success-check-hidden',
+              success ? 'request-success-check' : ''
+            ]"
+          >check</v-icon>
+        </template>
+        <template slot="append-outer">
+          <v-icon @click="deleteTodo(todo)">delete</v-icon>
+        </template>
+      </v-text-field>
     </v-list-item-content>
   </v-list-item>
 </template>
@@ -32,28 +44,37 @@
     data () {
       return {
         error: null,
-        isEditing: false
+        isEditing: false,
+        success: false
       };
     },
     methods: {
       completeTodo(todo) {
         this.error = null;
+        this.success = false;
         TodoData.updateTodo(todo).then((response) => {
           if (response.err) {
             this.error = response.err;
             this.todo.done = !this.todo.done;
+          }
+          else {
+            this.success = true;
           }
         });
       },
       updateDescription(todo, target) {
         $(target).blur();
         this.error = null;
+        this.success = false;
         this.description = $(target).val();
         TodoData.updateTodo(todo).then((response) => {
           if (response.err) {
             this.error = response.err;
           }
-          
+          else {
+            this.success = true;
+          }
+
           this.isEditing = false;
         });
       },
@@ -84,7 +105,25 @@
   }
 
   .todo-list-item-error {
-    height: 60px;
     border: 1px solid red;
+  }
+
+  .request-success-check-hidden {
+    opacity: 0;
+  }
+
+  .request-success-check {
+    -webkit-animation: fadeinout 1s linear forwards;
+    animation: fadeinout 1s linear forwards;
+  }
+
+  @-webkit-keyframes fadeinout {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+  }
+
+  @keyframes fadeinout {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
   }
 </style>
