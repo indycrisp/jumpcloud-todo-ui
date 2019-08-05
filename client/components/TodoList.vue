@@ -43,6 +43,8 @@
       CreateTodo
     },
     methods: {
+      // deleteTodo and createTodo keep the component's data in sync when a child to-do
+      // item has been deleted or added
       deleteTodo(todo) {
         var todoIndex = this.todos.indexOf(todo);
         this.todos.splice(todoIndex, 1);

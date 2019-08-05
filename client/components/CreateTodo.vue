@@ -23,6 +23,9 @@
       };
     },
     methods: {
+      // Creates a to-do item.  On success, emits an event
+      // to the to-do list to update the UI.  On fail,
+      // displays an error.
       createTodo(target) {
         var description = $(target).val() || "";
         description = description.trim();

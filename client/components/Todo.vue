@@ -49,12 +49,17 @@
       };
     },
     methods: {
+      // Mark a to-do item as complete; display an error message
+      // on failure
       completeTodo(todo) {
         this.error = null;
         this.success = false;
         TodoData.updateTodo(todo).then((response) => {
           if (response.err) {
             this.error = response.err;
+
+            // If the request fails, we need the UI to reflect
+            // the initial "doneness" state of the to-do item
             this.todo.done = !this.todo.done;
           }
           else {
@@ -62,6 +67,8 @@
           }
         });
       },
+      // Update the description of a to-do item; display an
+      // error message on failure
       updateDescription(todo, target) {
         $(target).blur();
         this.error = null;
@@ -78,6 +85,7 @@
           this.isEditing = false;
         });
       },
+      // Delete a to-do item; display an error message on failure
       deleteTodo(todo) {
         this.error = null;
         TodoData.deleteTodo(todo).then((response) => {
@@ -89,6 +97,8 @@
           }
         });
       },
+      // editDescription and cancelEdit toggle the editable state
+      // of a to-do item
       editDescription() {
         this.isEditing = true;
       },

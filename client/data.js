@@ -1,6 +1,7 @@
 function todoData() {
   const baseURL = 'http://localhost:8004/api/todos';
 
+  // Get a list of to-do items
   this.getTodos = () => {
     return new Promise((resolve) => {
       $.ajax({
@@ -12,6 +13,7 @@ function todoData() {
     });
   };
 
+  // Update a single to-do item
   this.updateTodo = (todo) => {
     return new Promise((resolve) => {
       $.ajax({
@@ -25,6 +27,7 @@ function todoData() {
     });
   };
 
+  // Delete a single to-do item
   this.deleteTodo = (todo) => {
     return new Promise((resolve) => {
       $.ajax({
@@ -36,6 +39,7 @@ function todoData() {
     });
   };
 
+  // Create a single to-do item
   this.createTodo = (todo) => {
     return new Promise((resolve) => {
       $.ajax({
